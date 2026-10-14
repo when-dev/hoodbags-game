@@ -33,7 +33,7 @@ Deploy: any static host (drag `dist/` onto Netlify Drop, `npx vercel`, Cloudflar
 | ↓ / S / swipe down | slide; in the air: slam down |
 | P / Esc / ⏸ | pause |
 
-Swipes chain: keep the finger down and swipe again for the next move.
+One swipe = one move: each swipe changes exactly one lane (or jumps / slides once), however long it is. Swipe again for the next lane.
 Keys are matched by physical position (`event.code`), so WASD works on any keyboard layout (Ukrainian/Russian, AZERTY…). Holding a key never repeats a move.
 
 - **Play Demo**: 3 districts (~2.5 min). The first run starts with a 3-row tutorial with on-screen prompts. A gate marks each district change, and the run ends in a golden-bull finale.

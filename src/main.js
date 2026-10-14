@@ -23,7 +23,7 @@ import { Scenery } from './scenery.js';
 import { AdaptiveQuality, PRESETS, pixelRatioFor, defaultLevel } from './quality.js';
 import { initAudio, sfx, coinPickup, resetCoinCombo, startMusic, stopMusic, setMusicLevel, toggleMute, isMuted, _debug as audioDebug } from './audio.js';
 import * as ui from './ui.js';
-import { KeyboardInput, isEditable } from './input.js';
+import { KeyboardInput, SwipeInput, isEditable } from './input.js';
 import { PerfMonitor } from './perf.js';
 
 // ============================================================ renderer / scene
@@ -571,28 +571,22 @@ addEventListener('keydown', (e) => {
 addEventListener('keyup', (e) => keyboard.keyup(e));
 addEventListener('blur', () => keyboard.clear());
 
-// swipes: a gesture fires as soon as the finger moved far enough; continuing the drag in a new
-// direction fires the next gesture
-let touch = null;
+// swipes: one action per finger contact (see SwipeInput in src/input.js)
 const canvas = renderer.domElement;
+const swipe = new SwipeInput(
+  { left: () => laneMove(-1), right: () => laneMove(1), jump, slide },
+  () => G.state === 'running',
+);
 addEventListener('touchstart', (e) => {
   if (G.state !== 'running') return;
   const t = e.changedTouches[0];
-  touch = { id: t.identifier, x: t.clientX, y: t.clientY };
+  swipe.start(t.identifier, t.clientX, t.clientY);
 }, { passive: true });
 addEventListener('touchmove', (e) => {
-  if (!touch || G.state !== 'running') return;
-  let t = null;
-  for (let i = 0; i < e.changedTouches.length; i++) if (e.changedTouches[i].identifier === touch.id) t = e.changedTouches[i];
-  if (!t) return;
-  const dx = t.clientX - touch.x, dy = t.clientY - touch.y;
-  if (dx * dx + dy * dy < 26 * 26) return;
-  if (Math.abs(dx) > Math.abs(dy)) laneMove(dx > 0 ? 1 : -1);
-  else if (dy < 0) jump(); else slide();
-  touch.x = t.clientX; touch.y = t.clientY;
+  for (let i = 0; i < e.changedTouches.length; i++) { const t = e.changedTouches[i]; swipe.move(t.identifier, t.clientX, t.clientY); }
 }, { passive: true });
-addEventListener('touchend', () => { touch = null; });
-addEventListener('touchcancel', () => { touch = null; });
+addEventListener('touchend', () => swipe.end());
+addEventListener('touchcancel', () => swipe.end());
 canvas.addEventListener('contextmenu', (e) => e.preventDefault());
 
 function togglePause(force) {

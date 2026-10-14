@@ -246,7 +246,7 @@ test('keyboard: repeated restarts never duplicate listeners or actions', () => {
   assert.equal(hb.G.player.lane, 2, 'one press = exactly one lane');
 });
 
-test('touch: swipes still steer (left, up, and a chained drag)', () => {
+test('touch: one swipe = one action, a long swipe never skips a lane', () => {
   const touch = (type, x, y) => { const e = new Event(type); e.changedTouches = [{ identifier: 4, clientX: x, clientY: y }]; dispatchEvent(e); };
   run(); clearAhead();
   touch('touchstart', 200, 500); touch('touchmove', 140, 500); touch('touchend', 140, 500); settle();
@@ -254,8 +254,11 @@ test('touch: swipes still steer (left, up, and a chained drag)', () => {
   touch('touchstart', 200, 500); touch('touchmove', 200, 440); touch('touchend', 200, 440); tick(3, true);
   assert.ok(hb.G.player.air);
   tick(60, true);
-  touch('touchstart', 100, 500); touch('touchmove', 160, 500); touch('touchmove', 220, 500); touch('touchend', 220, 500); settle();
-  assert.equal(hb.G.player.lane, 2, 'one drag, two swipes');
+  // a long swipe right from the left lane stops in the middle lane
+  touch('touchstart', 40, 500); for (let x = 60; x <= 340; x += 20) touch('touchmove', x, 500); touch('touchend', 340, 500); settle();
+  assert.equal(hb.G.player.lane, 1, 'one swipe = one lane');
+  touch('touchstart', 40, 500); touch('touchmove', 340, 500); touch('touchend', 340, 500); settle();
+  assert.equal(hb.G.player.lane, 2, 'second swipe = next lane');
 });
 
 // ------------------------------------------------------------------ airdrop parachute lifecycle

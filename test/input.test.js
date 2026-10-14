@@ -95,3 +95,39 @@ test('held arrow keys stay consumed while running (no page scroll), released whe
   st.state = 'menu';
   assert.equal(kb.keydown(ev('ArrowDown', 'ArrowDown', { repeat: true })), false);
 });
+
+import { SwipeInput, SWIPE_MIN_PX } from '../src/input.js';
+const swipeRig = (running = true) => {
+  const calls = [];
+  const h = {}; for (const a of ['left', 'right', 'jump', 'slide']) h[a] = () => calls.push(a);
+  return { sw: new SwipeInput(h, () => running), calls };
+};
+
+test('swipe: one finger contact triggers exactly one action, however long the drag', () => {
+  const { sw, calls } = swipeRig();
+  sw.start(1, 0, 0);
+  for (let x = 10; x <= 400; x += 10) sw.move(1, x, 0);
+  sw.end();
+  assert.deepEqual(calls, ['right']);
+});
+
+test('swipe: direction mapping and threshold', () => {
+  const { sw, calls } = swipeRig();
+  const one = (dx, dy) => { sw.start(1, 100, 100); sw.move(1, 100 + dx, 100 + dy); sw.end(); };
+  one(-60, 5); one(60, -5); one(5, -60); one(-5, 60);
+  one(SWIPE_MIN_PX - 5, 0); // too short: nothing
+  assert.deepEqual(calls, ['left', 'right', 'jump', 'slide']);
+});
+
+test('swipe: ignored when not running, other fingers ignored, needs a new contact', () => {
+  const off = swipeRig(false);
+  off.sw.start(1, 0, 0); off.sw.move(1, 80, 0);
+  assert.deepEqual(off.calls, []);
+  const { sw, calls } = swipeRig();
+  sw.start(1, 0, 0); sw.move(2, 80, 0); // a different finger moving
+  assert.deepEqual(calls, []);
+  sw.move(1, -80, 0); sw.move(1, 80, 0); // first decision sticks for this contact
+  assert.deepEqual(calls, ['left']);
+  sw.end(); sw.move(1, 200, 0);
+  assert.deepEqual(calls, ['left']);
+});

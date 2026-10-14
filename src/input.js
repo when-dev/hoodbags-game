@@ -58,3 +58,22 @@ export class KeyboardInput {
   // window blur / tab hidden / pause / restart: forget held keys so nothing sticks
   clear() { this.held.clear(); }
 }
+
+// Touch swipes: exactly ONE action per finger contact. The first movement past the threshold
+// decides it (left/right = one lane, up = jump, down = slide); the rest of that drag is ignored,
+// so a long swipe can never skip a lane. Swipe again for the next move.
+export const SWIPE_MIN_PX = 30;
+export class SwipeInput {
+  constructor(handlers, canAct) { this.handlers = handlers; this.canAct = canAct; this.touch = null; }
+  start(id, x, y) { this.touch = { id, x, y, done: false }; }
+  move(id, x, y) {
+    const t = this.touch;
+    if (!t || t.done || t.id !== id) return;
+    const dx = x - t.x, dy = y - t.y;
+    if (dx * dx + dy * dy < SWIPE_MIN_PX * SWIPE_MIN_PX) return;
+    t.done = true;
+    const action = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : dy < 0 ? 'jump' : 'slide';
+    if (this.canAct(action)) this.handlers[action]();
+  }
+  end() { this.touch = null; }
+}
