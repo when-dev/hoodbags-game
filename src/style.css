@@ -177,3 +177,26 @@ body:not(.ready) .screen { opacity: 0; }
 
 .btn.small-btn { font-size: 12px; letter-spacing: 1.5px; padding: 8px 12px; }
 .pu.hidden { display: none; }
+
+/* ---------- menu fits one screen (no scrolling on laptop heights) ---------- */
+.menu-inner { gap: clamp(6px, 1.1vh, 10px); }
+.logo { width: auto; height: clamp(84px, 19vh, 175px); max-width: 78vw; object-fit: contain; }
+.tag { font-size: clamp(20px, 4.2vh, 36px); margin-top: -4px; }
+.menu-buttons { gap: clamp(6px, 1vh, 10px); margin-top: 2px; }
+#menu .btn.primary, #menu .btn.gold { padding: clamp(8px, 1.5vh, 14px) 18px; font-size: clamp(18px, 2.8vh, 22px); }
+#menu .btn.ghost { padding: clamp(7px, 1.2vh, 12px); }
+#menu .btn.small-btn { padding: 6px 12px; }
+/* character cards: compact tiles, portrait beside name + tagline */
+.cast { margin-top: clamp(4px, 1vh, 10px); }
+.card { display: grid; grid-template-columns: clamp(44px, 7vh, 60px) 1fr; grid-template-rows: auto auto; column-gap: 8px; align-content: center; align-items: center; padding: 6px; }
+.card img { grid-row: 1 / span 2; width: 100%; aspect-ratio: 1; height: auto; object-position: center 22%; border-radius: 8px; }
+.card b { font-size: 18px; margin: 0; line-height: 1; align-self: end; }
+.card span { font-size: 11px; line-height: 1.2; align-self: start; }
+@media (max-height: 700px) {
+  .menu-sub { display: none; }
+  .name-field { margin-top: 0; }
+}
+@media (max-width: 560px) {
+  .card { grid-template-columns: 1fr; grid-template-rows: auto auto; justify-items: center; text-align: center; }
+  .card img { grid-row: auto; width: 56px; }
+}
