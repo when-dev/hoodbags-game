@@ -1,0 +1,8 @@
+{
+  // Cloudflare Workers static-assets deploy: serves the Vite build output (dist/).
+  "name": "hoodbags-game",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}
