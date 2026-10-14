@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d0620" />
+  <title>HoodBags — The Bull Run Starts Here</title>
+  <link rel="icon" href="/assets/coin.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&family=Permanent+Marker&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <div id="game"></div>
+
+  <!-- HUD -->
+  <div id="hud" class="hidden">
+    <div class="hud-left">
+      <div class="score"><span id="score">0</span></div>
+      <div class="dist"><span id="dist">0</span> m</div>
+    </div>
+    <div class="hud-center">
+      <div id="districtName">THE HOOD</div>
+      <div class="progress"><div id="progressFill"></div><div class="ticks"><i></i><i></i></div></div>
+    </div>
+    <div class="hud-right">
+      <div class="coins"><img src="/assets/coin.jpg" alt="" /> <span id="coins">0</span> <small>$HB</small></div>
+      <div class="hud-buttons">
+        <button id="muteBtn" class="icon-btn" aria-label="Mute">🔊</button>
+        <button id="pauseBtn" class="icon-btn" aria-label="Pause">⏸</button>
+      </div>
+    </div>
+    <div id="powerups"></div>
+    <div id="liqRow"><div id="liqChip" class="pu liq hidden" style="--c:#2f7dff">🐋 LIQ ON YOUR TAIL<span class="bar"><i id="liqBar"></i></span></div></div>
+  </div>
+
+  <div id="liqWarn"></div>
+  <div id="redAlert"></div>
+  <div id="flash"></div>
+  <div id="wipe"></div>
+  <div id="combo" class="hidden">×10 COMBO</div>
+  <div id="hint" class="hidden"></div>
+
+  <div id="dialog" class="hidden">
+    <img id="dialogImg" src="/assets/eazy.jpg" alt="" />
+    <div>
+      <div id="dialogName">EAZY</div>
+      <div id="dialogText">Trust me bro.</div>
+    </div>
+  </div>
+
+  <div id="banner" class="hidden">
+    <div class="banner-kicker" id="bannerKicker">DISTRICT 1 / 3</div>
+    <div class="banner-title" id="bannerTitle">THE HOOD</div>
+    <div class="banner-sub" id="bannerSub">Where every degen story starts.</div>
+  </div>
+
+  <div id="countdown" class="hidden">3</div>
+
+  <!-- MENU -->
+  <section id="menu" class="screen">
+    <div class="menu-bg"></div>
+    <div class="menu-inner">
+      <img class="logo" src="/assets/logo.png" alt="HoodBags" />
+      <div class="tag">THE BULL RUN STARTS HERE.</div>
+      <div class="menu-sub">First playable chapter · 3 districts · Demo build</div>
+      <label class="name-field">
+        <span>DEGEN NAME</span>
+        <input id="nameInput" maxlength="16" placeholder="anon" autocomplete="off" />
+      </label>
+      <div class="menu-buttons">
+        <button class="btn primary" id="playStory">▶ PLAY DEMO <small>The Hood → Trenches → Bull City</small></button>
+        <button class="btn gold" id="playEndless">🐂 BULL RUN <small>Endless · ranked</small></button>
+        <div class="row">
+          <button class="btn ghost" id="openBoard">🏆 Leaderboard</button>
+          <button class="btn ghost" id="openHow">🎮 How to play</button>
+        </div>
+        <button class="btn ghost small-btn" id="qualityBtn">⚙ GRAPHICS: AUTO</button>
+      </div>
+      <div class="cast">
+        <div class="card naz"><img src="/assets/naz.jpg" alt="Naz" /><b>NAZ</b><span>Chasing the bag.</span></div>
+        <div class="card eazy"><img src="/assets/eazy.jpg" alt="Eazy" /><b>EAZY</b><span>“Trust Me Bro.”</span></div>
+        <div class="card liq"><img src="/assets/liq.jpg" alt="Liq" /><b>LIQ</b><span>Pressure has a face.</span></div>
+      </div>
+      <div class="best">Best: <span id="bestScore">0</span></div>
+    </div>
+  </section>
+
+  <section id="howto" class="screen hidden">
+    <div class="panel">
+      <h2>HOW TO <em>CHASE THE BAG</em></h2>
+      <div class="controls">
+        <div><kbd>←</kbd><kbd>→</kbd> / <kbd>A</kbd><kbd>D</kbd> / swipe<span>Switch lanes</span></div>
+        <div><kbd>↑</kbd> / <kbd>W</kbd> / <kbd>Space</kbd> / swipe up<span>Jump</span></div>
+        <div><kbd>↓</kbd> / <kbd>S</kbd> / swipe down<span>Slide (in the air: slam down)</span></div>
+        <div class="fine">Swipes chain: keep your finger down and swipe again for the next move.</div>
+        <div><kbd>P</kbd> / <kbd>Esc</kbd><span>Pause</span></div>
+      </div>
+      <h3>TROUBLE IN THE HOOD</h3>
+      <ul class="legend">
+        <li><b class="c-red">RUG PULL</b> The carpet gets yanked — jump the pit or switch lanes.</li>
+        <li><b class="c-pink">FAKE AIRDROP</b> "FREE $HB" crates float down… and turn out to be scams. Jump or dodge. You can land on top.</li>
+        <li><b class="c-red">MARKET CRASH</b> Giant red candles. "DUMP" candles slide toward you. Change lanes.</li>
+        <li><b class="c-red">FUD</b> Low barrier — jump it.</li>
+        <li><b class="c-pink">LIQUIDATION LINE</b> Overhead bar — slide under.</li>
+        <li><b class="c-blue">LIQ</b> Clip something from the side and Liq gets on your tail for 7s. Slip again before he backs off: liquidated.</li>
+        <li><b class="c-gold">$HB BAG</b> Rare money bags on top of crates: worth 10 coins.</li>
+      </ul>
+      <h3>POWER-UPS</h3>
+      <ul class="legend">
+        <li><b class="c-blue">💎 DIAMOND HANDS</b> Survive one hit.</li>
+        <li><b class="c-pink">🧲 HODL MAGNET</b> Pulls in $HB coins.</li>
+        <li><b class="c-gold">2X LEVERAGE</b> Double $HB from every coin.</li>
+        <li><b class="c-green">👀 EAZY'S INTEL</b> Marks danger ahead. (Mostly accurate. Trust him.)</li>
+      </ul>
+      <button class="btn primary" data-back>GOT IT</button>
+    </div>
+  </section>
+
+  <section id="board" class="screen hidden">
+    <div class="panel">
+      <h2>🏆 <em>BULL RUN</em> LEADERBOARD</h2>
+      <div class="tabs"><button class="tab active" data-mode="endless">Bull Run</button><button class="tab" data-mode="story">Demo</button></div>
+      <ol id="boardList"></ol>
+      <p class="fine">Local scores on this device. Competition boards go live through official HoodBags channels.</p>
+      <button class="btn primary" data-back>BACK</button>
+    </div>
+  </section>
+
+  <section id="pause" class="screen hidden dim">
+    <div class="panel small">
+      <h2>PAUSED</h2>
+      <p class="fine">Even degens touch grass sometimes.</p>
+      <button class="btn primary" id="resumeBtn">▶ RESUME</button>
+      <button class="btn ghost small-btn" id="qualityBtnPause">⚙ GRAPHICS: AUTO</button>
+      <button class="btn ghost" id="quitBtn">QUIT TO MENU</button>
+    </div>
+  </section>
+
+  <section id="gameover" class="screen hidden dim">
+    <div class="panel small over">
+      <img id="overImg" src="/assets/liq.jpg" alt="" />
+      <h2 id="overTitle">RUGGED.</h2>
+      <p id="overSub">You saw it coming… a little too late.</p>
+      <div class="stats">
+        <div><span>SCORE</span><b id="overScore">0</b></div>
+        <div><span>$HB</span><b id="overCoins">0</b></div>
+        <div><span>DISTANCE</span><b id="overDist">0m</b></div>
+      </div>
+      <div id="overBest" class="newbest hidden">NEW BEST!</div>
+      <p class="eazy-line" id="overEazy"></p>
+      <button class="btn primary" id="retryBtn">↻ RUN IT BACK</button>
+      <button class="btn gold hidden" id="checkpointBtn">CONTINUE FROM DISTRICT <small>practice · unranked</small></button>
+      <button class="btn ghost" id="menuBtn">MENU</button>
+    </div>
+  </section>
+
+  <section id="victory" class="screen hidden dim">
+    <div class="panel small over">
+      <img src="/assets/bullcity.jpg" alt="" class="wide" />
+      <h2>YOU MADE IT TO <em>BULL CITY</em></h2>
+      <p>Naz grabbed the golden bull. Liq is not happy.</p>
+      <div class="stats">
+        <div><span>SCORE</span><b id="winScore">0</b></div>
+        <div><span>$HB</span><b id="winCoins">0</b></div>
+        <div><span>TIME</span><b id="winTime">0s</b></div>
+      </div>
+      <div id="winBest" class="newbest hidden">NEW BEST!</div>
+      <p class="eazy-line">“Told you, bro. Trust me.” — Eazy</p>
+      <button class="btn gold" id="winEndless">🐂 KEEP RUNNING (BULL RUN)</button>
+      <button class="btn primary" id="winRetry">↻ PLAY DEMO AGAIN</button>
+      <button class="btn ghost" id="winMenu">MENU</button>
+    </div>
+  </section>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

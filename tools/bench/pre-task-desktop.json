@@ -1,0 +1,173 @@
+{
+ "profile": "desktop",
+ "scenarios": {
+  "menu": {
+   "cpuAvg": 0.097,
+   "cpuP95": 0.141,
+   "cpuMax": 0.828,
+   "calls": 61,
+   "tris": 19001,
+   "meshes": 102,
+   "sprites": 3,
+   "sceneChildren": 14,
+   "particles": 0,
+   "obstacles": 0,
+   "coins": 0,
+   "scenery": 56
+  },
+  "gameplay_hood": {
+   "cpuAvg": 0.198,
+   "cpuP95": 0.398,
+   "cpuMax": 2.017,
+   "calls": 87,
+   "tris": 17724,
+   "meshes": 182,
+   "sprites": 9,
+   "sceneChildren": 14,
+   "particles": 0,
+   "obstacles": 15,
+   "coins": 34,
+   "scenery": 60
+  },
+  "busy_bullcity": {
+   "cpuAvg": 0.164,
+   "cpuP95": 0.279,
+   "cpuMax": 1.671,
+   "calls": 92,
+   "tris": 23340,
+   "meshes": 188,
+   "sprites": 12,
+   "sceneChildren": 14,
+   "particles": 0,
+   "obstacles": 16,
+   "coins": 23,
+   "scenery": 70
+  },
+  "particles_magnet": {
+   "cpuAvg": 0.209,
+   "cpuP95": 0.477,
+   "cpuMax": 1.911,
+   "calls": 126,
+   "tris": 34679,
+   "meshes": 172,
+   "sprites": 10,
+   "sceneChildren": 14,
+   "particles": 2,
+   "obstacles": 13,
+   "coins": 24,
+   "scenery": 69
+  },
+  "district_transition": {
+   "cpuAvg": 0.163,
+   "cpuP95": 0.306,
+   "cpuMax": 1.448,
+   "calls": 101,
+   "tris": 62082,
+   "meshes": 181,
+   "sprites": 9,
+   "sceneChildren": 14,
+   "particles": 4,
+   "obstacles": 14,
+   "coins": 25,
+   "scenery": 32
+  },
+  "jittery_frames": {
+   "cpuAvg": 0.158,
+   "cpuP95": 0.298,
+   "cpuMax": 1.404,
+   "calls": 87,
+   "tris": 82864,
+   "meshes": 186,
+   "sprites": 8,
+   "sceneChildren": 14,
+   "particles": 0,
+   "obstacles": 14,
+   "coins": 32,
+   "scenery": 57
+  }
+ },
+ "restarts": {
+  "before": {
+   "calls": 87,
+   "tris": 82864,
+   "meshes": 186,
+   "sprites": 8,
+   "sceneChildren": 14,
+   "particles": 0,
+   "obstacles": 14,
+   "coins": 32,
+   "scenery": 57
+  },
+  "after": {
+   "calls": 124,
+   "tris": 28239,
+   "meshes": 165,
+   "sprites": 8,
+   "sceneChildren": 14,
+   "particles": 0,
+   "obstacles": 11,
+   "coins": 24,
+   "scenery": 61
+  }
+ },
+ "endless": [
+  {
+   "t": 20,
+   "dist": 352,
+   "cpuAvg": 0.118,
+   "cpuP95": 0.171,
+   "cpuMax": 1.895,
+   "calls": 100,
+   "tris": 24310,
+   "meshes": 180,
+   "sprites": 9,
+   "sceneChildren": 14,
+   "particles": 0,
+   "obstacles": 14,
+   "coins": 29,
+   "scenery": 62,
+   "heapMB": 18.6
+  },
+  {
+   "t": 40,
+   "dist": 730,
+   "cpuAvg": 0.114,
+   "cpuP95": 0.171,
+   "cpuMax": 1.009,
+   "calls": 119,
+   "tris": 28647,
+   "meshes": 161,
+   "sprites": 9,
+   "sceneChildren": 14,
+   "particles": 0,
+   "obstacles": 10,
+   "coins": 14,
+   "scenery": 60,
+   "heapMB": 17
+  },
+  {
+   "t": 60,
+   "dist": 1135,
+   "cpuAvg": 0.113,
+   "cpuP95": 0.192,
+   "cpuMax": 2.602,
+   "calls": 118,
+   "tris": 95069,
+   "meshes": 175,
+   "sprites": 5,
+   "sceneChildren": 14,
+   "particles": 0,
+   "obstacles": 12,
+   "coins": 17,
+   "scenery": 57,
+   "heapMB": 23.4
+  }
+ ],
+ "campaign": {
+  "state": "won",
+  "dist": 3321,
+  "coins": 226,
+  "death": null,
+  "seconds": 164
+ }
+}
